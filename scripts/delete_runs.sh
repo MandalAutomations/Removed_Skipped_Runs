@@ -14,6 +14,6 @@ while read run_id; do
     break
   fi
 done < <(gh api repos/$SIPHON_REPO/actions/runs --paginate \
-  --jq '.workflow_runs[] | .id')
+  --jq '.workflow_runs[] | select(.conclusion == "skipped") | .id')
 
 echo "Deleted $((n - 1)) skipped workflow runs."
