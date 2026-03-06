@@ -5,12 +5,14 @@ on:
   workflow_dispatch
 
 jobs:
-  test:
+  cleanup:
     runs-on: ubuntu-latest
-    steps: 
-      - name: MandalAutomations/Removed_Skipped_Runs
-        uses: MandalAutomations/Removed_Skipped_Runs@main
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - uses: MandalAutomations/Removed_Skipped_Runs@main
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           repo: ${{ github.repository }}
           num_to_delete: 3
+          github_token: ${{ github.token }}
