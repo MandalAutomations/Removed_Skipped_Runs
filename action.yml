@@ -1,0 +1,25 @@
+name: Delete Workflow Runs
+description: Deletes workflow runs for a given repository using the GitHub CLI.
+
+inputs:
+  repo:
+    description: 'Repository in the format owner/repo (e.g. my-org/my-repo)'
+    required: true
+  num_to_delete:
+    description: 'Maximum number of workflow runs to delete'
+    required: false
+    default: '500'
+  github_token:
+    description: 'GitHub token used to authenticate the gh CLI'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Delete workflow runs
+      shell: bash
+      env:
+        SIPHON_REPO: ${{ inputs.repo }}
+        GH_TOKEN: ${{ inputs.github_token }}
+      run: |
+        bash ${{ github.action_path }}/scripts/delete_runs.sh "${{ inputs.num_to_delete }}"
